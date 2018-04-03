@@ -162,7 +162,7 @@ function twitter_settings(&$a,&$s) {
 	/***
 	 * 1) Check that we have global consumer key & secret
 	 * 2) If no OAuthtoken & stuff is present, generate button to get some
-	 * 3) Checkbox for "Send public notices (140 chars only)
+	 * 3) Checkbox for "Send public notices (280 chars only)
 	 */
 	$ckey    = get_config('twitter', 'consumerkey' );
 	$csecret = get_config('twitter', 'consumersecret' );
@@ -244,7 +244,7 @@ function twitter_settings(&$a,&$s) {
 			));
 
 			$sc .= replace_macros(get_markup_template('field_input.tpl'), array(
-				'$field'	=> array('twitter-length', t('Twitter post length'), get_pconfig(local_channel(),'twitter','tweet_length',140), t('Maximum tweet length'))
+				'$field'	=> array('twitter-length', t('Twitter post length'), get_pconfig(local_channel(),'twitter','tweet_length',280), t('Maximum tweet length'))
 			));
 
 
@@ -332,7 +332,7 @@ function twitter_shortenmsg($b, $shortlink = false) {
 	require_once("include/bbcode.php");
 	require_once("include/html2plain.php");
 
-	$max_char = get_pconfig($b['uid'],'twitter','tweet_length',140);
+	$max_char = get_pconfig($b['uid'],'twitter','tweet_length',280);
 
 //	$b['body'] = bb_CleanPictureLinks($b['body']);
 
@@ -607,10 +607,10 @@ function twitter_post_hook(&$a,&$b) {
 		require_once('include/bbcode.php');
 		$tweet = new TwitterOAuth($ckey,$csecret,$otoken,$osecret);
 
-                // in theory max char is 140 but T. uses t.co to make links 
+                // in theory max char is 280 but T. uses t.co to make links 
                 // longer so we give them 10 characters extra
 		if (!$intelligent_shortening) {
-			$max_char = intval(get_pconfig($b['uid'],'twitter','tweet_length',140)) - 10; // max. length for a tweet
+			$max_char = intval(get_pconfig($b['uid'],'twitter','tweet_length',280)) - 10; // max. length for a tweet
 	                // we will only work with up to two times the length of the dent 
 	                // we can later send to Twitter. This way we can "gain" some 
 	                // information during shortening of potential links but do not 
